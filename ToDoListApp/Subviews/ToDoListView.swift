@@ -2,17 +2,19 @@ import SwiftUI
 
 struct ToDoListView: View {
     
-    @Binding var items: [Note]
+    var items: [ToDoItem]
     
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
-                ForEach($items) { $item in
-                    ToDoRowView(note: $item, onToggle: {})
+                ForEach(items) { item in
+                    ToDoRowView(note: item, onToggle: {})
                         .contextMenu(menuItems: {
-                            Button("Редактировать", systemImage: "square.and.pencil") { // edit
+                            Button("Редактировать", systemImage: "square.and.pencil") {
+                                // edit
                             }
-                            Button("Поделиться",  systemImage: "square.and.arrow.up") { // share
+                            Button("Поделиться",  systemImage: "square.and.arrow.up") {
+                                // share
                             }
                             Button(role: .destructive) {
                                 // delete

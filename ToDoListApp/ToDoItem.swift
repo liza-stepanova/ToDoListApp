@@ -1,7 +1,9 @@
-struct Note: Identifiable, Equatable {
+struct ToDoItem: Identifiable, Equatable {
+    
     let id: Int64
     var title: String
     var content: String?
     var date: String
     var isDone: Bool
+    
 }

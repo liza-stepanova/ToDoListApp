@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ToDoRowView: View {
     
-    @Binding var note: Note
+    var note: ToDoItem
     let onToggle: () -> Void
     
     var body: some View {

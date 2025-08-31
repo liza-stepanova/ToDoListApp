@@ -11,7 +11,8 @@ struct FooterView: View {
                 Spacer()
                 
                 Text("\(countItems) задач")
-                    .foregroundStyle(.primary)
+                    .font(.system(size: 11, weight: .regular))
+                    .foregroundStyle(.white)
                     .padding(.leading, 24)
                 Spacer()
                 

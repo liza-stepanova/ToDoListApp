@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContextView: View {
-    var item: Note
+    var item: ToDoItem
     
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
