@@ -3,12 +3,15 @@ import SwiftUI
 struct ToDoListView: View {
     
     var items: [ToDoItem]
+    var onSelect: (ToDoItem) -> Void
     
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
                 ForEach(items) { item in
                     ToDoRowView(note: item, onToggle: {})
+                        .contentShape(Rectangle())
+                        .onTapGesture { onSelect(item) }
                         .contextMenu(menuItems: {
                             Button("Редактировать", systemImage: "square.and.pencil") {
                                 // edit

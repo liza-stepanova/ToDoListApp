@@ -50,7 +50,7 @@ struct DetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    //
+                    presenter.backTapped()
                 } label: {
                     HStack(spacing: 6) {
                         Image(systemName: "chevron.left")
