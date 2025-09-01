@@ -5,7 +5,7 @@ struct TodosApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate 
     var body: some Scene {
         WindowGroup {
-            MainBuilder.build()
+            DetailBuilder.build(todoID: 34)
         }
     }
 }
