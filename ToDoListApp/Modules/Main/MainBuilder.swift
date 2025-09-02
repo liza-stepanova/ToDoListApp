@@ -27,10 +27,16 @@ private struct MainModuleView: View {
         NavigationStack(path: $path) {
             root
                 .onAppear {
-                    router.pushToDoID = { id in path.append(id) }
+                    router.pushDetails = { id in path.append(Route.details(id)) }
+                    router.pushCreate = { path.append(Route.create) }
                 }
-                .navigationDestination(for: Int64.self) { todoID in
-                    DetailBuilder.build(todoID: todoID)
+                .navigationDestination(for: Route.self) { route in
+                    switch route {
+                    case .details(let id):
+                        DetailBuilder.build(mode: .view(id))
+                    case .create:
+                        DetailBuilder.build(mode: .create)
+                    }
                 }
         }
     }

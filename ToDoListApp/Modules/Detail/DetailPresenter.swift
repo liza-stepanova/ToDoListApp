@@ -5,21 +5,29 @@ final class DetailPresenter: DetailPresenterInput {
     private weak var view: DetailViewInput?
     private let interactor: DetailInteractorInput
     private let router: DetailRouterInput
-    private let id: Int64
     private var shouldCloseAfterSave = false
+    private let mode: DetailMode
 
     private var current = DetailViewState()
     
-    init(view: DetailViewInput, interactor: DetailInteractorInput, router: DetailRouterInput, id: Int64) {
+    init(view: DetailViewInput,
+         interactor: DetailInteractorInput,
+         router: DetailRouterInput,
+         mode: DetailMode) {
         self.view = view
         self.interactor = interactor
         self.router = router
-        self.id = id
+        self.mode = mode
     }
     
     func onAppear() {
         view?.display(.init(isSaving: false))
-        interactor.load(todoID: id)
+        switch mode {
+        case .create:
+            interactor.load(todoID: 0)
+        case .view(let id):
+            interactor.load(todoID: id)
+        }
     }
     
     func backTapped() {
@@ -30,18 +38,23 @@ final class DetailPresenter: DetailPresenterInput {
     func titleChanged(_ text: String) {
         current.title = text
         view?.display(current)
-        interactor.saveDraft(todoID: id, title: current.title, content: current.content)
+        interactor.saveDraft(todoID: 0, title: current.title, content: current.content)
     }
     
     func contentChanged(_ text: String) {
         current.content = text
         view?.display(current)
-        interactor.saveDraft(todoID: id, title: current.title, content: current.content)
+        interactor.saveDraft(todoID: 0, title: current.title, content: current.content)
     }
     
     func saveTapped() {
         view?.display(current.with(isSaving: true))
-        interactor.persist(todoID: id)
+        switch mode {
+        case .create:
+            interactor.persist(todoID: 0)
+        case .view(let id):
+            interactor.persist(todoID: id)
+        }
     }
     
 }

@@ -2,13 +2,15 @@ import Foundation
 
 final class MainRouter: MainRouterInput {
     
-    var pushToDoID: ((Int64) -> Void)?
+    var pushDetails: ((Int64) -> Void)?
+    var pushCreate: (() -> Void)?
     
     func showDetails(todoID: Int64) {
-        pushToDoID?(todoID)
+        pushDetails?(todoID)
     }
+    
     func showCreate() {
-        // 
+        pushCreate?()
     }
     
 }

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FooterView: View {
     var countItems: Int
+    var onAdd: () -> Void
     
     var body: some View {
         VStack(spacing: 0) {
@@ -16,7 +17,7 @@ struct FooterView: View {
                     .padding(.leading, 24)
                 Spacer()
                 
-                Button(action: {}) {
+                Button(action: onAdd) {
                     Image(systemName: "square.and.pencil")
                         .foregroundStyle(Color.accent)
                         .font(.system(size: 24, weight: .regular))

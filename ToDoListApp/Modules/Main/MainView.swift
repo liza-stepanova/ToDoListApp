@@ -15,7 +15,10 @@ struct MainView: View {
                 onToggle: { presenter.toggleDone(id: $0) },
                 onDelete: { presenter.delete(id: $0) }
             )
-            FooterView(countItems: adapter.state.items.count)
+            FooterView(
+                countItems: adapter.state.items.count,
+                onAdd: { presenter.addTapped() }
+            )
         }
         .navigationTitle("Задачи")
         .onAppear { presenter.onAppear() }
