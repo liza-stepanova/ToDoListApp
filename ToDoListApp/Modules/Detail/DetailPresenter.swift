@@ -6,6 +6,7 @@ final class DetailPresenter: DetailPresenterInput {
     private let interactor: DetailInteractorInput
     private let router: DetailRouterInput
     private let id: Int64
+    private var shouldCloseAfterSave = false
 
     private var current = DetailViewState()
     
@@ -23,6 +24,7 @@ final class DetailPresenter: DetailPresenterInput {
     
     func backTapped() {
         router.close()
+        saveTapped()
     }
     
     func titleChanged(_ text: String) {
@@ -62,8 +64,12 @@ extension DetailPresenter: DetailInteractorOutput {
 
     func didPersist(_ result: Result<Void, Error>) {
         switch result {
-        case .success: view?.display(current.with(isSaving: false))
-        case .failure(let e): view?.display(current.with(isSaving: false, error: e.localizedDescription))
+        case .success:
+            view?.display(current.with(isSaving: false))
+            if shouldCloseAfterSave { router.close() }
+        case .failure(let error):
+            view?.display(current.with(isSaving: false, error: error.localizedDescription))
+            shouldCloseAfterSave = false
         }
     }
     

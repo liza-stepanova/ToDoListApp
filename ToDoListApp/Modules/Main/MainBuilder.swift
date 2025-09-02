@@ -5,7 +5,8 @@ enum MainBuilder {
     
     static func build() -> some View {
         let adapter = MainViewAdapter()
-        let interactor = MainInteractor()
+        let repository = CoreDataTodoRepository(container: PersistenceController.shared)
+        let interactor = MainInteractor(repository: repository)
         let router = MainRouter()
         let presenter = MainPresenter(view: adapter, interactor: interactor, router: router)
         interactor.output = presenter

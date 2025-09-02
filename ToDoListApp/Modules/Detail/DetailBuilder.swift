@@ -4,7 +4,8 @@ enum DetailBuilder {
     
     static func build(todoID: Int64) -> some View {
         let adapter = DetailViewAdapter()
-        let interactor = DetailInteractor()
+        let repository = CoreDataTodoRepository(container: PersistenceController.shared)
+        let interactor = DetailInteractor(repository: repository)
         let router = DetailRouter()
         let presenter = DetailPresenter(view: adapter, interactor: interactor, router: router, id: todoID)
         interactor.output = presenter

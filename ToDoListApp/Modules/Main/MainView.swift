@@ -4,7 +4,6 @@ struct MainView: View {
     
     @StateObject var adapter: MainViewAdapter
     let presenter: MainPresenterInput
-    
     @State var searchText: String = ""
     
     var body: some View {
@@ -12,9 +11,9 @@ struct MainView: View {
         ZStack(alignment: .bottom) {
             ToDoListView(
                 items: adapter.state.items,
-                onSelect: { item in
-                    presenter.openDetails(id: item.id)
-                }
+                onSelect: { presenter.openDetails(id: $0.id) },
+                onToggle: { presenter.toggleDone(id: $0) },
+                onDelete: { presenter.delete(id: $0) }
             )
             FooterView(countItems: adapter.state.items.count)
         }
@@ -24,6 +23,9 @@ struct MainView: View {
             text: $searchText,
             placement: .navigationBarDrawer(displayMode: .always)
         )
+        .onChange(of: searchText) { oldValue, newValue in
+            presenter.search(query: newValue)
+        }
         
     }
     

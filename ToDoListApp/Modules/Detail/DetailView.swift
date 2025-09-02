@@ -17,11 +17,11 @@ struct DetailView: View {
                 text: Binding(
                     get: { adapter.state.title
                     },
-                    set: { presenter.titleChanged($0) })
+                    set: { presenter.titleChanged($0) }),
+                axis: .vertical
             )
             .font(.system(size: 34, weight: .bold))
             .textFieldStyle(.plain)
-            .lineLimit(2)
             .submitLabel(.done)
             .onSubmit {
                 focus = nil
