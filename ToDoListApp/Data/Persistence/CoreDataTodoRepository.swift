@@ -1,11 +1,20 @@
 import CoreData
 
 final class CoreDataTodoRepository: ToDoRepository {
+    typealias API = (URLSession, @escaping (Result<[ToDoDTO], Error>) -> Void) -> Void
     
     private let container: NSPersistentContainer
+    private let apiFetch: (_ session: URLSession, _ completion: @escaping (Result<[ToDoDTO], Error>) -> Void) -> Void
+    private let urlSession: URLSession
     
-    init(container: NSPersistentContainer) {
+    init(container: NSPersistentContainer,
+         apiFetch: @escaping API = { session, completion in
+            DummyJSONAPI.fetchTodos(session: session, completion: completion)
+        },
+         urlSession: URLSession = .shared) {
         self.container = container
+        self.apiFetch = apiFetch
+        self.urlSession = urlSession
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
@@ -19,7 +28,7 @@ final class CoreDataTodoRepository: ToDoRepository {
                 guard count == 0 else {
                     return completion(.success(()))
                 }
-                DummyJSONAPI.fetchTodos { result in
+                self.apiFetch(self.urlSession) { result in
                     switch result {
                     case .failure(let error):
                         completion(.failure(error))

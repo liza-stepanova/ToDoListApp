@@ -17,9 +17,10 @@ struct ToDoDTO: Decodable {
 
 enum DummyJSONAPI {
     
-    static func fetchTodos(completion: @escaping (Result<[ToDoDTO], Error>) -> Void) {
+    static func fetchTodos(session: URLSession = .shared,
+                           completion: @escaping (Result<[ToDoDTO], Error>) -> Void) {
         let url = URL(string: "https://dummyjson.com/todos")!
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             if let error = error { return completion(.failure(error)) }
             guard let data = data else {
                 return completion(.failure(NSError(domain: "net", code: -1)))
